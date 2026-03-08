@@ -1,0 +1,19 @@
+.form {
+  display: flex;
+  align-items: center;
+  min-height: 40px;
+  /* Make it a bit bigger */
+  cursor: text;
+}
+
+.input {
+  background-color: transparent;
+  border: 0;
+  outline: none;
+  padding-left: 10px;
+  color: var(--text-color);
+  flex: 1;
+  height: 100%;
+  font-family: inherit;
+  font-size: inherit;
+}
