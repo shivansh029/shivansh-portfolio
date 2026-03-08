@@ -56,7 +56,10 @@ export default function Terminal() {
   };
 
   const addCommand = async (rawCommand) => {
-    const command = rawCommand.toLowerCase().trim();
+    const parts = rawCommand.toLowerCase().trim().split(/\s+/);
+    const command = parts[0];
+    const args = parts.slice(1);
+
     if (command === "clear") return setCommands([]);
 
     setShowScrollHint(false);
@@ -65,6 +68,14 @@ export default function Terminal() {
     // 1. Handle instant commands or errors
     if (command === "help" || !(command in CONTENTS)) {
       const output = command === "help" ? CONTENTS.help() : CONTENTS.error(escapeHTML(rawCommand));
+      setCommands(prev => [...prev, { command: rawCommand, output }]);
+      setTimeout(() => scrollToId(cmdId), 10);
+      return;
+    }
+
+    // Special case for theme which needs to handle arguments immediately
+    if (command === "theme") {
+      const output = CONTENTS.theme(args);
       setCommands(prev => [...prev, { command: rawCommand, output }]);
       setTimeout(() => scrollToId(cmdId), 10);
       return;
@@ -82,8 +93,8 @@ export default function Terminal() {
     };
 
     const label = messages[command] || command;
-    const systemMsg = `<span style="color:#73daca">[SYSTEM]</span> Fetching ${label} records...`;
-    const okMsg = `<br /><span style="color:#73daca">[OK]</span> ${label} records loaded successfully.<br /><br />`;
+    const systemMsg = `<span style="color:var(--system-msg)">[SYSTEM]</span> Fetching ${label} records...`;
+    const okMsg = `<br /><span style="color:var(--system-msg)">[OK]</span> ${label} records loaded successfully.<br /><br />`;
 
     // Start fetching and add initial entry
     const dataPromise = CONTENTS[command]();
@@ -119,7 +130,7 @@ export default function Terminal() {
       setLoading(false);
       setCommands(prev => {
         const next = [...prev];
-        next[next.length - 1].output = systemMsg + `<br /><span style="color:#f7768e">[ERROR]</span> Internal system failure.`;
+        next[next.length - 1].output = systemMsg + `<br /><span style="color:var(--error-msg)">[ERROR]</span> Internal system failure.`;
         return next;
       });
     }
@@ -136,12 +147,19 @@ export default function Terminal() {
 
   return (
     <div className={styles.terminalWrapper}>
+      <div className={styles.terminalHeader}>
+        <div className={styles.buttons}>
+          <span className={`${styles.button} ${styles.close}`}></span>
+          <span className={`${styles.button} ${styles.minimize}`}></span>
+          <span className={`${styles.button} ${styles.maximize}`}></span>
+        </div>
+        <div className={styles.title}>zsh terminal</div>
+      </div>
       <div
         className={styles.terminal}
         ref={terminalRef}
         onClick={handleTerminalClick}
       >
-        {/* <Command command="help" output="Some very long text will go in here" /> */}
         {commands.map(({ command, output }, index) => (
           <Command
             id={`cmd-${index}`}

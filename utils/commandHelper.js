@@ -28,6 +28,10 @@ const COMMANDS = [
     description: "My Certifications",
   },
   {
+    command: "theme",
+    description: "Toggle light/dark theme",
+  },
+  {
     command:
       // 'clear <span style="color: var(--primary)">(Ctrl+L shortcut)</span>',
       "clear",
@@ -43,7 +47,7 @@ const getAbout = async () => {
 const getEducation = async () => {
   const educationData = await (await fetch("/api/education")).json();
   return (
-    `<span style="color: #73daca">Education Status: Completed</span><br/><br/>` +
+    `<span style="color: var(--system-msg)">Education Status: Completed</span><br/><br/>` +
     educationData
       .map(
         (edu) => `
@@ -74,7 +78,7 @@ const getExperience = async () => {
   return experienceData
     .map(
       (exp, index) => `
-    <div class="command"><span style="color:#e0af68">${index + 1}. ${exp.company
+    <div class="command"><span style="color:var(--highlight)">${index + 1}. ${exp.company
         }</span> | ${exp.role}</div>
     <div class="meaning">${exp.duration} | ${exp.location}</div>
     <br/>
@@ -112,9 +116,9 @@ const getContacts = async () => {
   return (
     contactMediums
       .map(
-        (contact) => `<div style="display: flex; justify-content: space-between;">
-      <p style="font-size: 15px">${contact.medium}</p>
-      <a class="meaning" href="${contact.link}" target="_blank">${contact.username}</a>
+        (contact) => `<div style="display: flex; justify-content: space-between; gap: 8px; margin-bottom: 8px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 4px;">
+      <p style="font-size: 15px; font-weight: bold;">${contact.medium}</p>
+      <a class="meaning" href="${contact.link}" target="_blank" style="text-align: right;">${contact.username}</a>
     </div>`
       )
       .join("")
@@ -124,9 +128,9 @@ const getContacts = async () => {
 export const CONTENTS = {
   help: () =>
     COMMANDS.map(
-      (command) => `<div style="display: flex; justify-content: space-between;">
-        <p style="font-size: 15px">${command.command}</p>
-        <p>${command.description}</p>
+      (command) => `<div style="display: flex; justify-content: space-between; gap: 10px; margin-bottom: 4px;">
+        <p style="font-size: 15px; color: var(--primary); font-weight: bold;">${command.command}</p>
+        <p style="color: var(--text-color); text-align: right;">${command.description}</p>
       </div>`
     ).join("") +
     `<br />
