@@ -1,31 +1,78 @@
 .container {
-  padding: 0 1rem;
+  padding: 2rem 1rem;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   width: 100%;
-  max-width: 600px;
+  max-width: 800px;
+  animation: fadeIn 0.8s ease-out;
+  box-sizing: border-box;
+}
+
+.banner {
+  margin-bottom: 2rem;
+  opacity: 0.9;
+  filter: drop-shadow(0 0 5px var(--primary));
+}
+
+.header {
+  margin-bottom: 1.5rem;
 }
 
 .help {
-  color: var(--text-color);
+  color: var(--faded-text);
+  font-weight: 400;
+  font-size: 1.1rem;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .coffee {
   position: fixed;
   bottom: 20px;
   right: 20px;
-  width: 64px;
-  height: 64px;
+  width: 56px;
+  height: 56px;
   z-index: 1000;
   background-color: #ffdd00;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 100%;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease;
+}
+
+.coffee:hover {
+  transform: scale(1.1) rotate(5deg);
 }
 
 .coffeeIcon {
-  width: 48px;
-  height: 48px;
+  width: 32px;
+  height: 32px;
+}
+
+@media (max-width: 600px) {
+  .container {
+    padding: 1.5rem 0.5rem;
+  }
+
+  .header h2 {
+    font-size: 1.4rem;
+  }
+
+  .help {
+    font-size: 1rem;
+    display: block;
+    margin-top: 5px;
+  }
 }

@@ -1,0 +1,32 @@
+.toggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: transparent;
+    border: 1px solid var(--secondary);
+    color: var(--secondary);
+    padding: 10px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    z-index: 1000;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.toggle:hover {
+    transform: scale(1.1);
+    background-color: var(--secondary);
+    color: var(--background-color);
+    box-shadow: 0 0 15px var(--secondary);
+}
+
+@media (max-width: 600px) {
+    .toggle {
+        top: 15px;
+        right: 15px;
+        padding: 8px;
+    }
+}
