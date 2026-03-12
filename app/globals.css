@@ -57,10 +57,6 @@ body {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-html {
-  scrollbar-gutter: stable;
-}
-
 html,
 body {
   padding: 0;
@@ -122,20 +118,20 @@ a {
   color: var(--secondary);
 }
 
-/* Custom Scrollbar */
-::-webkit-scrollbar {
-  width: 8px;
+.asciiFull {
+  display: block;
 }
 
-::-webkit-scrollbar-track {
-  background: var(--background-color);
+.asciiMobile {
+  display: none;
 }
 
-::-webkit-scrollbar-thumb {
-  background: var(--scrollbar-thumb);
-  border-radius: 10px;
-}
+@media (max-width: 600px) {
+  .asciiFull {
+    display: none;
+  }
 
-::-webkit-scrollbar-thumb:hover {
-  background: var(--secondary);
+  .asciiMobile {
+    display: block;
+  }
 }
