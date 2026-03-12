@@ -1,6 +1,7 @@
 .terminalWrapper {
   position: relative;
   width: 100%;
+  max-width: 900px;
   background: var(--background-color);
   border-radius: 12px;
   overflow: hidden;
@@ -51,30 +52,12 @@
 }
 
 .terminal {
-  max-height: calc(100vh - 350px);
-  min-height: 400px;
+  height: 504px;
   padding: 20px;
   overflow-y: auto;
   position: relative;
   cursor: text;
   -webkit-overflow-scrolling: touch;
-}
-
-.terminal::-webkit-scrollbar {
-  width: 6px;
-}
-
-.terminal::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.terminal::-webkit-scrollbar-thumb {
-  background: transparent;
-  border-radius: 10px;
-}
-
-.terminal:hover::-webkit-scrollbar-thumb {
-  background: var(--scrollbar-thumb);
 }
 
 .scrollHint {
@@ -119,8 +102,7 @@
 
 @media (max-width: 600px) {
   .terminal {
-    max-height: calc(100vh - 250px);
-    min-height: 300px;
+    height: 480px;
     padding: 12px;
   }
 

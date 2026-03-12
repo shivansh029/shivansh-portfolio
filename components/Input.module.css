@@ -17,3 +17,49 @@
   font-family: inherit;
   font-size: inherit;
 }
+
+.promptLabel {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.bracket {
+  color: var(--lambda-color);
+  font-weight: 500;
+}
+
+.user {
+  color: var(--system-msg);
+  font-weight: 500;
+}
+
+.host {
+  color: var(--system-msg);
+  font-weight: 500;
+}
+
+.colon {
+  color: var(--text-color);
+}
+
+.path {
+  color: var(--secondary);
+}
+
+.dollar {
+  color: var(--lambda-color);
+  font-weight: bold;
+  margin-left: 4px;
+  margin-right: 8px;
+}
+
+@media (max-width: 600px) {
+  .host {
+    display: none;
+  }
+
+  .input {
+    font-size: 16px; /* Prevents iOS auto-zoom */
+  }
+}

@@ -66,9 +66,14 @@ export default function Terminal() {
     const cmdId = `cmd-${commands.length}`;
 
     // 1. Handle instant commands or errors
-    if (command === "help" || !(command in CONTENTS)) {
-      const output = command === "help" ? CONTENTS.help() : CONTENTS.error(escapeHTML(rawCommand));
-      setCommands(prev => [...prev, { command: rawCommand, output }]);
+    if (command === "help" || command === "whoami" || !(command in CONTENTS)) {
+      const output =
+        command === "help"
+          ? CONTENTS.help()
+          : command === "whoami"
+          ? CONTENTS.whoami()
+          : CONTENTS.error(escapeHTML(rawCommand));
+      setCommands((prev) => [...prev, { command: rawCommand, output }]);
       setTimeout(() => scrollToId(cmdId), 10);
       return;
     }
@@ -89,39 +94,64 @@ export default function Terminal() {
       skills: "skill",
       education: "education",
       certifications: "certification",
-      contact: "contact"
+      contact: "contact",
     };
 
+    const isResume = command === "resume";
+    const isHireMe = command === "hire-me";
     const label = messages[command] || command;
-    const systemMsg = `<span style="color:var(--system-msg)">[SYSTEM]</span> Fetching ${label} records...`;
-    const okMsg = `<br /><span style="color:var(--system-msg)">[OK]</span> ${label} records loaded successfully.<br /><br />`;
+
+    const systemMsg = isResume
+      ? `<span style="color:var(--system-msg)">[SYSTEM]</span> Fetching resume`
+      : isHireMe
+      ? `<span style="color:var(--system-msg)">[SYSTEM]</span> Access granted.<br /><span style="color:var(--primary)">[USER]</span> Recruiter detected.`
+      : `<span style="color:var(--system-msg)">[SYSTEM]</span> Fetching ${label} records...`;
+
+    const okMsg = isResume
+      ? `<br /><span style="color:var(--system-msg)">[OK]</span> opening resume`
+      : isHireMe
+      ? `<br /><span style="color:var(--system-msg)">[OK]</span> Opening contact channels...<br /><br />`
+      : `<br /><span style="color:var(--system-msg)">[OK]</span> ${label} records loaded successfully.<br /><br />`;
 
     // Start fetching and add initial entry
     const dataPromise = CONTENTS[command]();
-    setCommands(prev => [...prev, { command: rawCommand, output: systemMsg }]);
+    setCommands((prev) => [...prev, { command: rawCommand, output: systemMsg }]);
     setTimeout(() => scrollToId(cmdId), 10);
 
     try {
       // Parallel wait: Minimum delay for "realism" + background data fetch
       const [output] = await Promise.all([
         dataPromise,
-        new Promise(r => setTimeout(r, 450)) // Slightly faster initial fetch
+        new Promise((r) => setTimeout(r, 600)), // Custom delay for resume
       ]);
 
       // Show success message
-      setCommands(prev => {
+      setCommands((prev) => {
         const next = [...prev];
-        next[next.length - 1] = { ...next[next.length - 1], output: systemMsg + okMsg };
+        next[next.length - 1] = {
+          ...next[next.length - 1],
+          output: systemMsg + okMsg,
+        };
         return next;
       });
       setTimeout(() => scrollToId(cmdId), 10);
 
-      // Brief pause to acknowledge success before dumping data
-      await new Promise(r => setTimeout(r, 185));
+      if (isResume) {
+        await new Promise((r) => setTimeout(r, 550));
+        window.open(output, "_blank");
+        setLoading(false);
+        return;
+      }
 
-      setCommands(prev => {
+      // Brief pause to acknowledge success before dumping data
+      await new Promise((r) => setTimeout(r, 185));
+
+      setCommands((prev) => {
         const next = [...prev];
-        next[next.length - 1] = { ...next[next.length - 1], output: systemMsg + okMsg + output };
+        next[next.length - 1] = {
+          ...next[next.length - 1],
+          output: systemMsg + okMsg + output,
+        };
         return next;
       });
       setLoading(false);
