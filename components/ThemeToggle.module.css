@@ -1,32 +1,129 @@
-.toggle {
+.toggleWrapper {
     position: fixed;
-    top: 20px;
-    right: 20px;
-    background: transparent;
-    border: 1px solid var(--secondary);
-    color: var(--secondary);
-    padding: 10px;
-    border-radius: 50%;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.3s ease;
-    z-index: 1000;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    top: -5px;
+    right: 40px;
+    z-index: 2000;
+    perspective: 1000px;
 }
 
-.toggle:hover {
-    transform: scale(1.1);
-    background-color: var(--secondary);
-    color: var(--background-color);
-    box-shadow: 0 0 15px var(--secondary);
+.lampContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    transition: transform 0.2s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+    opacity: 0.7;
+}
+
+.lampContainer:hover {
+    opacity: 1;
+}
+
+.lampContainer:active .pullString {
+    height: 90px;
+}
+
+.wire {
+    width: 2px;
+    height: 35px;
+    background: var(--faded-text);
+    opacity: 0.4;
+}
+
+.bulbOuter {
+    position: relative;
+    width: 36px;
+    height: 52px;
+    margin-top: -2px;
+}
+
+.bulb {
+    width: 100%;
+    height: 100%;
+    fill: transparent;
+    stroke-width: 2;
+    transition: all 0.4s ease;
+}
+
+/* --- Dark Theme (Bulb "Off" but Cyberpunk) --- */
+:global([data-theme='dark']) .bulb {
+    stroke: var(--primary); /* Purple outline */
+    fill: rgba(187, 154, 247, 0.05); /* Tint of purple */
+    filter: drop-shadow(0 0 5px rgba(187, 154, 247, 0.3)); /* Subtle purple aura */
+}
+
+:global([data-theme='dark']) .filament {
+    stroke: var(--secondary); /* Cyan filament */
+    opacity: 0.5;
+}
+
+:global([data-theme='dark']) .pullString {
+    background: var(--faded-text);
+    opacity: 0.4;
+}
+
+:global([data-theme='dark']) .pullString::after {
+    background: var(--primary); /* Purple bead */
+    box-shadow: 0 0 5px var(--primary);
+}
+
+/* --- Light Theme (Bulb "On" - Warm) --- */
+:global([data-theme='light']) .bulb {
+    fill: rgba(223, 160, 0, 0.08); /* Subtle highlight fill */
+    stroke: var(--highlight);
+    filter: drop-shadow(0 0 8px var(--highlight));
+}
+
+:global([data-theme='light']) .filament {
+    stroke: var(--highlight);
+    opacity: 0.7;
+}
+
+:global([data-theme='light']) .pullString {
+    background: var(--highlight);
+    opacity: 0.6;
+}
+
+:global([data-theme='light']) .pullString::after {
+    background: var(--highlight);
+    box-shadow: 0 0 8px var(--highlight);
+}
+
+.filament {
+    fill: none;
+    stroke-width: 1.5;
+    transition: all 0.4s ease;
+}
+
+.pullString {
+    width: 2px;
+    height: 70px;
+    position: relative;
+    transition: height 0.15s ease;
+}
+
+.pullString::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: -4px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+}
+
+.lampContainer:hover .pullString::after {
+    transform: scale(1.15);
+}
+
+/* Tug Animation */
+.tugging {
+    transform: translateY(12px);
 }
 
 @media (max-width: 600px) {
-    .toggle {
-        top: 15px;
-        right: 15px;
-        padding: 8px;
+    .toggleWrapper {
+        right: 20px;
     }
 }
