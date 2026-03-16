@@ -193,6 +193,32 @@ export const CONTENTS = {
   resume: async () => {
     return "/Shivansh_Verma_Resume.pdf";
   },
+  coffee: async () => {
+    return `Developer productivity increased by +200%.`;
+  },
+  "sudo rm -rf /": () => {
+    return `<span style="color: var(--error-msg)">[SYSTEM FAILURE]</span> Access Denied<br/>Nice try 😄<br/>But this portfolio is protected.`;
+  },
+  matrix: () => {
+    return `<span style="color: #0F0">[PROTOCOL INITIALIZED]</span><br/>Wake up, Neo...<br/>The Matrix has you...`;
+  },
+  secret: () => {
+    return `<div style="color: var(--highlight); font-weight: bold; margin-bottom: 8px;">[SYSTEM ARCHIVE] Deep-level protocols detected:</div>
+    <div style="display: flex; flex-direction: column; gap: 4px;">
+      <div style="display: flex; justify-content: space-between;">
+        <span style="color: var(--primary); font-weight: bold;">matrix</span>
+        <span>Enter the digital rain</span>
+      </div>
+      <div style="display: flex; justify-content: space-between;">
+        <span style="color: var(--primary); font-weight: bold;">coffee</span>
+        <span>Instant productivity boost</span>
+      </div>
+      <div style="display: flex; justify-content: space-between;">
+        <span style="color: var(--primary); font-weight: bold;">sudo rm -rf /</span>
+        <span>System destruction test</span>
+      </div>
+    </div>`;
+  },
   error: (input) =>
     `<div class="help-command">sh: Unknown command: <span style="color: var(--error-msg)">${input}</span></div><div class="help-command">See \`help\` for info`,
 };
